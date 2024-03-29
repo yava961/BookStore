@@ -3,12 +3,18 @@ syntax = "proto3";
 
 
 option java_multiple_files = true;
-option java_package = "com.example.bookstore.grpc";
 option java_outer_classname = "BookProto";
 
 package book;
 
-message Book {
+service BookService {
+  rpc AddBook(AddBookRequest) returns (BookResponse);
+  rpc UpdateBook(UpdateBookRequest) returns (BookResponse);
+  rpc DeleteBook(DeleteBookRequest) returns (EmptyResponse);
+  rpc GetBook(GetBookRequest) returns (BookResponse);
+}
+
+message AddBookRequest {
   string id = 1;
   string title = 2;
   string author = 3;
@@ -16,13 +22,29 @@ message Book {
   int32 quantity = 5;
 }
 
-service BookService {
-  rpc GetBook (BookId) returns (Book);
-  rpc AddBook (Book) returns (Book);
-  rpc UpdateBook (Book) returns (Book);
-  rpc DeleteBook (BookId) returns (Book);
+message UpdateBookRequest {
+  string id = 1;
+  string title = 2;
+  string author = 3;
+  string isbn = 4;
+  int32 quantity = 5;
 }
 
-message BookId {
+message DeleteBookRequest {
   string id = 1;
 }
+
+message GetBookRequest {
+  string id = 1;
+}
+
+message BookResponse {
+  string id = 1;
+  string title = 2;
+  string author = 3;
+  string isbn = 4;
+  int32 quantity = 5;
+}
+
+message EmptyResponse {}
+message EmptyRequest {}
